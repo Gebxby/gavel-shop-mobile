@@ -11,9 +11,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<ItemHomepage> items = [
-    ItemHomepage("Lihat produk", Icons.shopping_basket_outlined),
-    ItemHomepage("Tambah produk", Icons.add_circle_outline),
-    ItemHomepage("Logout", Icons.logout),
+    ItemHomepage("Lihat produk", Icons.shopping_basket_outlined, Colors.blue),
+    ItemHomepage("Tambah produk", Icons.add_circle_outline, Colors.green),
+    ItemHomepage("Logout", Icons.logout, Colors.red),
   ];
 
   final String name = "Gabriel gantenk";
@@ -87,7 +87,7 @@ class ItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Theme.of(context).colorScheme.secondary,
+      color: item.color, // Menggunakan warna dari item
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
         onTap: () {
@@ -154,6 +154,7 @@ class InfoCard extends StatelessWidget {
 class ItemHomepage {
   final String name;
   final IconData icon;
+  final Color color; // Properti baru untuk warna
 
-  ItemHomepage(this.name, this.icon);
+  ItemHomepage(this.name, this.icon, this.color);
 }

@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(
           primarySwatch: Colors.blue,
-        ).copyWith(secondary: const Color.fromARGB(255, 87, 194, 192)),
+        ),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'gavel shop'),
