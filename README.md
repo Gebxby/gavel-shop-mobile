@@ -31,3 +31,87 @@ final: Digunakan untuk mendeklarasikan variabel yang hanya dapat diinisialisasi 
 
 5. Implementasi Checklist di Atas
 Implementasi checklist dilakukan dengan menggunakan beberapa widget seperti Checkbox untuk memberikan tanda centang, dan ListView untuk menampilkan daftar elemen checklist secara vertikal. Setiap kali pengguna menekan Checkbox, setState() dipanggil untuk meng-update UI berdasarkan perubahan status checklist tersebut.
+
+
+
+*TUGAS 8*
+
+
+1. Fungsi const di Flutter
+Di Flutter, const digunakan untuk menyatakan bahwa suatu widget atau variabel bersifat tetap dan tidak berubah (istilahnya immutable). ketika kita menandai suatu widget sebagai const, Flutter tahu bahwa widget itu tidak perlu dibuat ulang setiap kali aplikasi berubah atau di-refresh.
+
+Keuntungan Menggunakan const:
+
+Hemat Memori: Dengan const, Flutter tidak perlu membuat widget yang sama berulang kali.
+Performa Lebih Cepat: Karena widget const tidak berubah, Flutter bisa bekerja lebih cepat dengan fokus pada bagian aplikasi yang memang berubah.
+Kapan Harus Menggunakan const: Gunakan const ketika suatu objek itu tidak berubah saat apl berjalan
+Kapan Tidak Perlu const: Jika nilai atau widget mungkin berubah saat aplikasi berjalan, tidak perlu menggunakan const. Contohnya, widget yang bergantung pada data yang bisa berubah seiring waktu.
+
+2. Perbedaan Column dan Row
+Column dan Row adalah widget di Flutter yang digunakan untuk menyusun tampilan. Keduanya berbeda dari cara menyusun widget di dalamnya.
+
+Column: Menyusun widget dari atas ke bawah. tampilanya akan nampak diatur berderet ke bawah.
+
+Contoh:
+        dart
+                Column(
+        children: [
+            Text('Teks 1'),
+            Text('Teks 2'),
+        ],
+        )
+Row: Menyusun widget dari kiri ke kanan. tampilanya akan nampak ditampilkan berderet ke samping.
+
+Contoh:
+
+        Row(
+        children: [
+            Icon(Icons.home),
+            Icon(Icons.star),
+        ],
+        )
+
+Perbedaan Utama:
+
+Column menyusun widget dari atas ke bawah, sedangkan Row menyusun secara dari kiri ke kanan.
+Column cocok untuk menampilkan banyak item yang mungkin melebihi batas layar dan bisa ditambahkan scroll, sedangkan Row cocok untuk deretan ikon atau teks.
+
+
+3. Elemen Input pada Halaman Form
+Pada halaman form yang dibuat, kita menggunakan elemen berikut:
+
+TextFormField: Untuk mengisi teks, seperti nama produk atau deskripsi.
+TextFormField dengan Tipe Angka: Untuk input yang berupa angka, seperti harga produk.
+Contoh Elemen Input Flutter Lain yang Tidak Digunakan:
+
+DropdownButtonFormField: Untuk memilih satu opsi dari beberapa pilihan (seperti memilih kategori produk).
+Checkbox, Radio, Switch: Digunakan untuk input pilihan "ya atau tidak" atau pilihan dari beberapa opsi.
+Slider: Untuk memilih nilai dari rentang tertentu (biasanya nilai numerik).
+
+
+4. Mengatur Tema di Flutter
+Tema adalah cara untuk menentukan warna, gaya teks, dan tampilan elemen lainnya secara seragam di seluruh aplikasi. Dengan tema, kita bisa menjaga tampilan aplikasi agar konsisten dan serasi.
+
+Contoh Implementasi Tema:
+            MaterialApp(
+            theme: ThemeData(
+                primaryColor: Colors.blue,
+                colorScheme: ColorScheme.fromSwatch().copyWith(
+                secondary: Colors.orange,
+                ),
+            ),
+            );
+
+Dengan mengatur ThemeData, kita bisa menentukan warna utama, warna teks, warna tombol, dan banyak lagi di seluruh aplikasi tanpa harus menatanya di setiap widget.
+
+5. Navigasi dalam Aplikasi dengan Banyak Halaman
+Untuk berpindah antar halaman di Flutter, kita bisa menggunakan Navigator. Navigator seperti tumpukan (stack) tempat kita bisa menambah halaman (disebut push) atau kembali ke halaman sebelumnya (disebut pop).
+
+Contoh Cara Menavigasi ke Halaman Lain:
+
+            Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => HalamanBaru(),
+            ),
+            );
