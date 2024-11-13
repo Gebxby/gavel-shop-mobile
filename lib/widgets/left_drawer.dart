@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gavel_shop_mobile/screens/menu.dart';
 import 'package:gavel_shop_mobile/screens/productEntry.dart';
 
-
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
 
@@ -15,21 +14,22 @@ class LeftDrawer extends StatelessWidget {
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primary,
             ),
-            child: const Column(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start, // Menyusun teks dari kiri
               children: [
-                Text(
-                  'Mental Health Tracker',
-                  textAlign: TextAlign.center,
+                const Text(
+                  'Gavel Shop',
+                  textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                 ),
-                Padding(padding: EdgeInsets.all(8)),
-                Text(
+                const Padding(padding: EdgeInsets.only(top: 8)),
+                const Text(
                   "Tambahkan produk anda",
-                  textAlign: TextAlign.center,
+                  textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: 15,
                     color: Colors.white,
@@ -45,11 +45,12 @@ class LeftDrawer extends StatelessWidget {
             onTap: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Halaman Utama')),
+                MaterialPageRoute(
+                    builder: (context) =>
+                        const MyHomePage(title: 'Halaman Utama')),
               );
             },
           ),
-          
           ListTile(
             leading: const Icon(Icons.add_circle_outline),
             title: const Text('Tambah Produk'),
