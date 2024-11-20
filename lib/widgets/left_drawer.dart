@@ -61,6 +61,16 @@ class LeftDrawer extends StatelessWidget {
               );
             },
           ),
+           ListTile(
+            leading: const Icon(Icons.add_circle_outline),
+            title: const Text('Daftar Produk'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ProductEntry()),
+              );
+            },
+          ),
         ],
       ),
     );

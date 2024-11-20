@@ -115,3 +115,94 @@ Contoh Cara Menavigasi ke Halaman Lain:
                 builder: (context) => HalamanBaru(),
             ),
             );
+
+
+
+1. Mengapa Kita Perlu Membuat Model untuk JSON?
+Model diperlukan untuk mempermudah pengelolaan data yang diterima atau dikirim dalam format JSON. Tanpa model:
+
+Kesulitan manipulasi data: JSON berbentuk map (key-value pair), sehingga setiap akses atau manipulasi data memerlukan parsing manual. Model memungkinkan data JSON diakses sebagai objek dengan properti, membuatnya lebih mudah dipahami dan di-maintain.
+Keamanan data: Model memastikan struktur data valid dan sesuai spesifikasi, mengurangi risiko error.
+Jika tidak membuat model:
+
+Tidak akan terjadi error secara langsung, tetapi kode menjadi lebih rentan terhadap kesalahan akses dan lebih sulit dibaca atau diperbaiki.
+2. Fungsi Library http
+Library http digunakan untuk melakukan permintaan HTTP ke server. Fungsi utamanya adalah:
+
+GET: Mengambil data dari server (misalnya, daftar produk atau user).
+POST: Mengirim data dari aplikasi ke server (misalnya, data form).
+Autentikasi dan header: Menambahkan header untuk autentikasi atau pengelolaan cookie.
+Pada tugas ini, library http memungkinkan Flutter untuk berkomunikasi dengan server Django REST API untuk pengambilan dan pengiriman data.
+
+3. Fungsi CookieRequest
+CookieRequest adalah bagian dari library pbp_django_auth yang digunakan untuk mengelola autentikasi berbasis cookie. Fungsi utamanya:
+
+Menyimpan cookie: Cookie digunakan untuk menjaga sesi pengguna setelah login.
+Mengelola permintaan: Menyisipkan cookie secara otomatis pada setiap permintaan HTTP ke server, memungkinkan backend mengenali sesi pengguna.
+Logout: Menghapus cookie dari memori, menandai sesi pengguna sebagai selesai.
+Mengapa instance CookieRequest perlu dibagikan ke semua komponen?
+
+Agar semua komponen aplikasi memiliki akses ke sesi pengguna yang sama.
+Memastikan autentikasi dilakukan dengan benar di seluruh aplikasi tanpa perlu mengelola cookie secara manual di setiap komponen.
+4. Mekanisme Pengiriman Data
+Proses pengiriman data dari input hingga ditampilkan di Flutter melibatkan langkah-langkah berikut:
+
+Input Data: Pengguna mengisi form (misalnya, nama produk, deskripsi, harga).
+Validasi Form: Flutter memvalidasi input menggunakan validator di widget TextFormField.
+Kirim ke Server: Setelah validasi, data dikirim ke backend menggunakan metode POST dengan CookieRequest.postJson atau http.post.
+Backend Memproses Data: Django menerima data, memvalidasinya, menyimpannya ke database, lalu mengembalikan respons JSON (status sukses/gagal).
+Tampilkan di Flutter: Flutter menggunakan respons dari backend untuk memberi umpan balik (notifikasi sukses/gagal) atau memperbarui UI.
+5. Mekanisme Autentikasi
+Proses autentikasi terdiri dari login, register, dan logout:
+
+Login:
+
+Pengguna memasukkan email dan password di Flutter.
+Flutter mengirim data ke endpoint login di backend (Django).
+Django memverifikasi data, membuat cookie sesi, dan mengembalikan respons.
+CookieRequest menyimpan cookie untuk sesi pengguna.
+UI Flutter diperbarui untuk menampilkan menu pengguna yang login.
+Register:
+
+Pengguna mengisi form registrasi di Flutter.
+Flutter mengirim data ke endpoint registrasi Django.
+Django memvalidasi data, membuat akun baru di database, lalu mengembalikan respons.
+Flutter menampilkan notifikasi hasil registrasi (berhasil atau gagal).
+Logout:
+
+Flutter mengirim permintaan logout ke Django.
+Django menghapus sesi pengguna di server.
+CookieRequest menghapus cookie di Flutter.
+UI Flutter diperbarui ke mode tidak terautentikasi.
+6. Langkah Implementasi Checklist
+Berikut adalah langkah implementasi yang dilakukan:
+
+Menyiapkan Backend:
+
+Menambahkan endpoint login, logout, register, dan pengelolaan produk pada Django REST Framework.
+Mengatur autentikasi berbasis session atau token di Django.
+Membuat Model di Flutter:
+
+Membuat class model (Product, User, dll.) untuk mempermudah pengelolaan data JSON.
+Menggunakan fungsi fromJson dan toJson untuk serialisasi/deserialisasi data.
+Menambahkan pbp_django_auth:
+
+Mengintegrasikan library untuk autentikasi berbasis cookie.
+Membuat instance CookieRequest di main.dart dan membagikannya ke semua widget dengan Provider.
+Membuat Form Input:
+
+Menambahkan form menggunakan TextFormField untuk input pengguna (registrasi, login, tambah produk).
+Validasi data dengan validator bawaan Flutter.
+Mengirim Data ke Backend:
+
+Menggunakan CookieRequest.postJson untuk pengiriman data.
+Menangani respons backend dan memberikan notifikasi kepada pengguna.
+Mengambil Data dari Backend:
+
+Menggunakan FutureBuilder dan CookieRequest.get untuk mengambil data dari endpoint backend.
+Menampilkan data dalam bentuk daftar di UI Flutter.
+Testing:
+
+Memastikan form validasi bekerja dengan baik.
+Menguji pengiriman data dengan berbagai skenario (input valid/invalid).
+Memverifikasi autentikasi (login/logout) dan pengelolaan sesi pengguna.

@@ -1,11 +1,17 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:gavel_shop_mobile/main.dart';
 import 'package:gavel_shop_mobile/widgets/left_drawer.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
 
 class ProductEntry extends StatefulWidget {
   const ProductEntry({super.key});
 
   @override
   State<ProductEntry> createState() => _ProductEntryState();
+
+
 }
 
 class _ProductEntryState extends State<ProductEntry> {
@@ -16,6 +22,7 @@ class _ProductEntryState extends State<ProductEntry> {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
     return Scaffold(
       appBar: AppBar(
         title: const Center(
@@ -113,42 +120,39 @@ class _ProductEntryState extends State<ProductEntry> {
                         Theme.of(context).colorScheme.primary,
                       ),
                     ),
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text('Produk berhasil disimpan'),
-                              content: SingleChildScrollView(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Produk: $_product'),
-                                    Text('Deskripsi: $_description'),
-                                    Text('Harga: $_price'),
-                                  ],
-                                ),
-                              ),
-                              actions: [
-                                TextButton(
-                                  child: const Text('OK'),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                    _formKey.currentState!.reset();
-                                    setState(() {
-                                      _product = "";
-                                      _description = "";
-                                      _price = 0;
-                                    });
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      }
-                    },
+                    onPressed: () async {
+    if (_formKey.currentState!.validate()) {
+        // Kirim ke Django dan tunggu respons
+        // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
+        final response = await request.postJson(
+            "http://gavel_shop_mobile/create-flutter/",
+            jsonEncode(<String, String>{
+                'product': _product,
+                'price': _price.toString(),
+                'description': _description,
+            // TODO: Sesuaikan field data sesuai dengan aplikasimu
+            }),
+        );
+        if (context.mounted) {
+            if (response['status'] == 'success') {
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(const SnackBar(
+                content: Text("produk baru berhasil disimpan!"),
+                ));
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => MyApp()),
+                );
+            } else {
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(const SnackBar(
+                    content:
+                        Text("Terdapat kesalahan, silakan coba lagi."),
+                ));
+            }
+        }
+    }
+},
                     child: const Text(
                       "Simpan",
                       style: TextStyle(color: Colors.white),
